@@ -1,0 +1,11 @@
+# IDE/build process related
+.idea/
+.gradle/
+
+# Build output
+build/
+classes/
+out/
+
+# VM crash logs
+hs_err_pid*
