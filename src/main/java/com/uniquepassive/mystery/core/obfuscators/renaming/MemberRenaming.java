@@ -1,5 +1,6 @@
 package com.uniquepassive.mystery.core.obfuscators.renaming;
 
+import com.uniquepassive.mystery.core.obfuscators.renaming.provider.MemberNameProvider;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.MethodInsnNode;
@@ -10,9 +11,9 @@ import java.util.Map;
 
 public class MemberRenaming {
 
-    private final NameProvider nameProvider;
+    private final MemberNameProvider nameProvider;
 
-    public MemberRenaming(NameProvider nameProvider) {
+    public MemberRenaming(MemberNameProvider nameProvider) {
         this.nameProvider = nameProvider;
     }
 

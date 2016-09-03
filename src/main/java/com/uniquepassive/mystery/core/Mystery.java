@@ -1,7 +1,7 @@
 package com.uniquepassive.mystery.core;
 
 import com.uniquepassive.mystery.core.obfuscators.renaming.MemberRenaming;
-import com.uniquepassive.mystery.core.obfuscators.renaming.RandomNumberNameProvider;
+import com.uniquepassive.mystery.core.obfuscators.renaming.provider.RandomNumberMemberNameProvider;
 import com.uniquepassive.mystery.core.obfuscators.shuffling.MemberShuffler;
 import com.uniquepassive.mystery.util.JarUtil;
 import org.objectweb.asm.tree.ClassNode;
@@ -18,7 +18,7 @@ public class Mystery {
         MemberShuffler memberShuffler = new MemberShuffler();
         memberShuffler.run(targetClasses);
 
-        MemberRenaming memberRenaming = new MemberRenaming(new RandomNumberNameProvider());
+        MemberRenaming memberRenaming = new MemberRenaming(new RandomNumberMemberNameProvider());
         memberRenaming.run(inClasses, targetClasses);
 
         memberShuffler.run(targetClasses);
