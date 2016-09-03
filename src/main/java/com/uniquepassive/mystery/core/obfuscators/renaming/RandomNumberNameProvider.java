@@ -17,20 +17,22 @@ public class RandomNumberNameProvider implements NameProvider {
     public void feedData(Map<String, ClassNode> classes) {
         mappings.clear();
 
+        Set<Integer> usedFieldNames = new HashSet<>();
+        Set<Integer> usedMethodNames = new HashSet<>();
+
         classes.forEach((name, c) -> {
             Set<String> usedDescriptors = new HashSet<>();
-            Set<Integer> usedNames = new HashSet<>();
             int[] newName = {generateRandomInt(0)};
 
             // Fields
 
             for (FieldNode f : c.fields) {
                 if (usedDescriptors.contains(f.desc)) {
-                    usedNames.add(newName[0]);
+                    usedFieldNames.add(newName[0]);
 
                     do {
                         newName[0] = generateRandomInt(newName[0]);
-                    } while (usedNames.contains(newName[0]));
+                    } while (usedFieldNames.contains(newName[0]));
                 }
 
                 if (!mappings.containsKey(name + "." + f.name + f.desc)) {
@@ -71,7 +73,6 @@ public class RandomNumberNameProvider implements NameProvider {
             // Methods
 
             usedDescriptors.clear();
-            usedNames.clear();
             newName[0] = generateRandomInt(newName[0]);
 
             // TODO: Implement method functionality
