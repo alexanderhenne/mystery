@@ -6,7 +6,7 @@ import java.util.Map;
 
 public interface MemberNameProvider {
 
-    void feedData(Map<String, ClassNode> classes);
+    void feedData(Map<String, ClassNode> inClasses, Map<String, ClassNode> targetClasses);
 
     String getNameForMember(String owner, String name, String desc, boolean isField);
 }

@@ -14,15 +14,15 @@ public class RandomNumberMemberNameProvider implements MemberNameProvider {
     private final Map<String, String> mappings = new HashMap<>();
 
     @Override
-    public void feedData(Map<String, ClassNode> classes) {
+    public void feedData(Map<String, ClassNode> inClasses, Map<String, ClassNode> targetClasses) {
         mappings.clear();
 
         Set<Integer> usedFieldNames = new HashSet<>();
         Set<Integer> usedMethodNames = new HashSet<>();
 
-        classes.forEach((name, c) -> {
+        targetClasses.forEach((name, c) -> {
             Set<String> usedDescriptors = new HashSet<>();
-            int[] newName = {generateRandomInt(0)};
+            int[] newName = {generateRandomInt()};
 
             // Fields
 
@@ -31,26 +31,24 @@ public class RandomNumberMemberNameProvider implements MemberNameProvider {
                     usedFieldNames.add(newName[0]);
 
                     do {
-                        newName[0] = generateRandomInt(newName[0]);
+                        newName[0] = generateRandomInt();
                     } while (usedFieldNames.contains(newName[0]));
                 }
 
                 if (!mappings.containsKey(name + "." + f.name + f.desc)) {
-                    classes.entrySet()
+                    inClasses.values()
                             .stream()
-                            .filter(e -> {
-                                ClassNode c2 = classes.get(e.getValue().superName);
-                                while (c2 != null) {
-                                    if (c2 == c) {
+                            .filter(c2 -> {
+                                ClassNode c3 = inClasses.get(c2.superName);
+                                while (c3 != null) {
+                                    if (c3 == c) {
                                         return true;
                                     }
-                                    c2 = classes.get(c2.superName);
+                                    c3 = inClasses.get(c3.superName);
                                 }
                                 return false;
                             })
-                            .forEach(e -> {
-                                ClassNode c2 = e.getValue();
-
+                            .forEach(c2 -> {
                                 Optional<FieldNode> optionalField = c2.fields
                                         .stream()
                                         .filter(f2 -> (f2.access & Opcodes.ACC_STATIC) == 0)
@@ -73,7 +71,7 @@ public class RandomNumberMemberNameProvider implements MemberNameProvider {
             // Methods
 
             usedDescriptors.clear();
-            newName[0] = generateRandomInt(newName[0]);
+            newName[0] = generateRandomInt();
 
             // TODO: Implement method functionality
         });
@@ -84,13 +82,7 @@ public class RandomNumberMemberNameProvider implements MemberNameProvider {
         return mappings.get(owner + "." + name + desc);
     }
 
-    private int generateRandomInt(int oldInt) {
-        int newInt;
-
-        do {
-            newInt = random.nextInt();
-        } while (oldInt == newInt);
-
-        return newInt;
+    private int generateRandomInt() {
+        return random.nextInt();
     }
 }
