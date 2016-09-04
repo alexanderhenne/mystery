@@ -30,7 +30,7 @@ public class Boot {
                 .build());
 
         options.addOption(Option
-                .builder("target")
+                .builder("targets")
                 .hasArg()
                 .required()
                 .argName("jar/class files")
@@ -58,7 +58,7 @@ public class Boot {
         return Configuration
                 .builder()
                 .inJars(parse.getOptionValue("in").split(","))
-                .targets(parse.getOptionValue("target").split(","))
+                .targets(parse.getOptionValue("targets").split(","))
                 .outJar(parse.getOptionValue("out"))
                 .build();
     }
