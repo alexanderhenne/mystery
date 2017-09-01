@@ -23,6 +23,7 @@ public class IdentifierShuffler {
             ));
 
             c.methods.forEach(m -> targets.addAll(Arrays.asList(
+                    m.exceptions, m.localVariables,
                     m.visibleAnnotations, m.invisibleAnnotations,
                     m.visibleTypeAnnotations, m.invisibleTypeAnnotations,
                     m.visibleLocalVariableAnnotations, m.invisibleLocalVariableAnnotations)
