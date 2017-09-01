@@ -1,6 +1,6 @@
-package com.uniquepassive.mystery.core.obfuscators.renaming;
+package com.uniquepassive.mystery.core.obfuscators.modifiers.renaming;
 
-import com.uniquepassive.mystery.core.obfuscators.renaming.provider.ClassNameProvider;
+import com.uniquepassive.mystery.core.obfuscators.modifiers.renaming.provider.ClassNameProvider;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.*;
 

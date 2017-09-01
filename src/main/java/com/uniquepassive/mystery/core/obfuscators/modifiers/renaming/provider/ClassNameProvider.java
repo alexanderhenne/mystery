@@ -1,4 +1,4 @@
-package com.uniquepassive.mystery.core.obfuscators.renaming.provider;
+package com.uniquepassive.mystery.core.obfuscators.modifiers.renaming.provider;
 
 import org.objectweb.asm.tree.ClassNode;
 

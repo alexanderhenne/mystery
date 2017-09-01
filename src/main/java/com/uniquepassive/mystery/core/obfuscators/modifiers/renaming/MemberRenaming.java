@@ -1,6 +1,6 @@
-package com.uniquepassive.mystery.core.obfuscators.renaming;
+package com.uniquepassive.mystery.core.obfuscators.modifiers.renaming;
 
-import com.uniquepassive.mystery.core.obfuscators.renaming.provider.MemberNameProvider;
+import com.uniquepassive.mystery.core.obfuscators.modifiers.renaming.provider.MemberNameProvider;
 import org.objectweb.asm.tree.*;
 
 import java.util.Arrays;
