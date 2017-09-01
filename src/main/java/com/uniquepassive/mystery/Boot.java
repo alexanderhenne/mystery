@@ -26,7 +26,7 @@ public class Boot {
                 .hasArg()
                 .required()
                 .argName("jars")
-                .desc("input jars, separated using \',\'")
+                .desc("input jar paths, separated using ','")
                 .build());
 
         options.addOption(Option
@@ -34,7 +34,7 @@ public class Boot {
                 .hasArg()
                 .required()
                 .argName("jar/class files")
-                .desc("jars/class files to obfuscate, separated using \',\' - prepend with \':\' to make an exception for a class")
+                .desc("jars/class files to obfuscate, separated using ',' - prepend with ':' to make an exception for a class")
                 .build());
 
         options.addOption(Option
@@ -42,7 +42,7 @@ public class Boot {
                 .hasArg()
                 .required()
                 .argName("jar")
-                .desc("output jar")
+                .desc("output jar path")
                 .build());
 
         options.addOption(Option
@@ -60,7 +60,7 @@ public class Boot {
                 .build());
 
         for (String arg : args) {
-            if (arg.equals("-help")) {
+            if (arg.equalsIgnoreCase("-help")) {
                 new HelpFormatter().printHelp("mystery", options, true);
                 return null;
             }
