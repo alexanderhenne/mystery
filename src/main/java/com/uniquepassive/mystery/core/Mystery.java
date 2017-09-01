@@ -1,6 +1,7 @@
 package com.uniquepassive.mystery.core;
 
 import com.uniquepassive.mystery.Configuration;
+import com.uniquepassive.mystery.core.obfuscators.modifiers.LineNumberModifier;
 import com.uniquepassive.mystery.core.obfuscators.modifiers.renaming.ClassRenaming;
 import com.uniquepassive.mystery.core.obfuscators.modifiers.renaming.MemberRenaming;
 import com.uniquepassive.mystery.core.obfuscators.modifiers.renaming.provider.RandomNumberClassNameProvider;
@@ -21,6 +22,10 @@ public class Mystery {
 
         ClassRenaming classRenaming = new ClassRenaming(new RandomNumberClassNameProvider());
         classRenaming.run(configuration.getInClasses(), configuration.getTargetClasses());
+
+        LineNumberModifier lineNumberModifier
+                = new LineNumberModifier(configuration.getLineNumbersAction(), configuration.getInfoOut());
+        lineNumberModifier.run(configuration.getTargetClasses());
 
         IdentifierShuffler identifierShuffler = new IdentifierShuffler();
         identifierShuffler.run(configuration.getTargetClasses());

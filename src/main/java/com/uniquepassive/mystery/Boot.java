@@ -45,6 +45,20 @@ public class Boot {
                 .desc("output jar")
                 .build());
 
+        options.addOption(Option
+                .builder("infoOut")
+                .hasArg()
+                .argName("path")
+                .desc("info output folder path (default: -out path parent folder)")
+                .build());
+
+        options.addOption(Option
+                .builder("linenumbers")
+                .hasArg()
+                .argName("action")
+                .desc("'remove' to remove method debug line numbers (default), 'random' to make random, 'disable' to disable")
+                .build());
+
         for (String arg : args) {
             if (arg.equals("-help")) {
                 new HelpFormatter().printHelp("mystery", options, true);
@@ -60,6 +74,8 @@ public class Boot {
                 .inJars(parse.getOptionValue("in").split(","))
                 .targets(parse.getOptionValue("targets").split(","))
                 .outJar(parse.getOptionValue("out"))
+                .infoOut(parse.getOptionValue("infoOut"))
+                .lineNumbersAction(parse.getOptionValue("linenumbers"))
                 .build();
     }
 }

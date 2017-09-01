@@ -16,14 +16,27 @@ public class Configuration {
     private Map<String, ClassNode> inClasses;
     private Map<String, ClassNode> targetClasses;
     private String outJar;
+    private String infoOut;
+
+    private String lineNumbersAction;
 
     private Configuration(Builder builder)
             throws IOException {
 
         this.inClasses = getInClasses(builder.inJars);
         this.targetClasses = getTargetClasses(builder.targets, this.inClasses);
-
         this.outJar = builder.outJar;
+        this.infoOut = builder.infoOut;
+
+        if (this.infoOut == null) {
+            this.infoOut = new File(this.outJar).getParent();
+        }
+
+        if (this.infoOut == null) {
+            this.infoOut = "/";
+        }
+
+        this.lineNumbersAction = builder.lineNumbersAction;
     }
 
     public Map<String, ClassNode> getInClasses() {
@@ -50,6 +63,22 @@ public class Configuration {
         this.outJar = outJar;
     }
 
+    public String getInfoOut() {
+        return infoOut;
+    }
+
+    public void setInfoOut(String infoOut) {
+        this.infoOut = infoOut;
+    }
+
+    public String getLineNumbersAction() {
+        return lineNumbersAction;
+    }
+
+    public void setLineNumbersAction(String lineNumbersAction) {
+        this.lineNumbersAction = lineNumbersAction;
+    }
+
     public static Builder builder() {
         return new Builder();
     }
@@ -59,6 +88,9 @@ public class Configuration {
         private String[] inJars;
         private String[] targets;
         private String outJar;
+        private String infoOut;
+
+        private String lineNumbersAction;
 
        public Builder inJars(String[] inJars) {
            this.inJars = inJars;
@@ -73,6 +105,16 @@ public class Configuration {
         public Builder outJar(String outJar) {
             this.outJar = outJar;
             return this;
+        }
+
+        public Builder infoOut(String infoOut) {
+            this.infoOut = infoOut;
+            return this;
+        }
+
+        public Builder lineNumbersAction(String lineNumbersAction) {
+           this.lineNumbersAction = lineNumbersAction;
+           return this;
         }
 
         public Configuration build()
