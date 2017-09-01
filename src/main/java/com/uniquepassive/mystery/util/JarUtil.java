@@ -30,7 +30,7 @@ public class JarUtil {
                     try (InputStream classStream = jarFile.getInputStream(e)) {
                         ClassReader classReader = new ClassReader(classStream);
                         ClassNode classNode = new ClassNode();
-                        classReader.accept(classNode, ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES);
+                        classReader.accept(classNode, ClassReader.SKIP_FRAMES);
                         return classNode;
                     } catch (IOException ex) {
                         throw Throwables.propagate(ex);
