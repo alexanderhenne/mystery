@@ -17,6 +17,14 @@ public class Mystery {
     public void run(Configuration configuration)
             throws IOException {
 
+        if (configuration.getInClasses().isEmpty()) {
+            throw new IllegalStateException("There are no in classes!");
+        }
+
+        if (configuration.getTargetClasses().isEmpty()) {
+            throw new IllegalStateException("There are no target classes!");
+        }
+
         MemberRenaming memberRenaming = new MemberRenaming(new RandomNumberMemberNameProvider());
         memberRenaming.run(configuration.getInClasses(), configuration.getTargetClasses());
 
