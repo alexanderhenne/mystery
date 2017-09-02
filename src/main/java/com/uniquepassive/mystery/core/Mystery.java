@@ -1,6 +1,7 @@
 package com.uniquepassive.mystery.core;
 
 import com.uniquepassive.mystery.Configuration;
+import com.uniquepassive.mystery.core.obfuscators.BogusExceptionAdder;
 import com.uniquepassive.mystery.core.obfuscators.modifiers.LineNumberModifier;
 import com.uniquepassive.mystery.core.obfuscators.modifiers.renaming.ClassRenaming;
 import com.uniquepassive.mystery.core.obfuscators.modifiers.renaming.MemberRenaming;
@@ -34,6 +35,9 @@ public class Mystery {
         LineNumberModifier lineNumberModifier
                 = new LineNumberModifier(configuration.getLineNumbersAction(), configuration.getInfoOut());
         lineNumberModifier.run(configuration.getTargetClasses());
+
+        BogusExceptionAdder bogusExceptionAdder = new BogusExceptionAdder();
+        bogusExceptionAdder.run(configuration.getInClasses(), configuration.getTargetClasses());
 
         IdentifierShuffler identifierShuffler = new IdentifierShuffler();
         identifierShuffler.run(configuration.getTargetClasses());
