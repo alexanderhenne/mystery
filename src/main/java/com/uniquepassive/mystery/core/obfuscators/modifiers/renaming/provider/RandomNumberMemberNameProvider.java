@@ -6,6 +6,7 @@ import org.objectweb.asm.tree.FieldNode;
 
 import java.security.SecureRandom;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class RandomNumberMemberNameProvider implements MemberNameProvider {
 
@@ -22,17 +23,17 @@ public class RandomNumberMemberNameProvider implements MemberNameProvider {
 
         targetClasses.forEach((name, c) -> {
             Set<String> usedDescriptors = new HashSet<>();
-            int[] newName = {generateRandomInt()};
+            AtomicInteger newName = new AtomicInteger(generateRandomInt());
 
             // Fields
 
             for (FieldNode f : c.fields) {
                 if (usedDescriptors.contains(f.desc)) {
-                    usedFieldNames.add(newName[0]);
+                    usedFieldNames.add(newName.get());
 
                     do {
-                        newName[0] = generateRandomInt();
-                    } while (usedFieldNames.contains(newName[0]));
+                        newName.set(generateRandomInt());
+                    } while (usedFieldNames.contains(newName.get()));
                 }
 
                 if (!mappings.containsKey(name + "." + f.name + f.desc)) {
@@ -57,11 +58,11 @@ public class RandomNumberMemberNameProvider implements MemberNameProvider {
                                         .findAny();
 
                                 if (!optionalField.isPresent()) {
-                                    mappings.put(c2.name + "." + f.name + f.desc, "" + newName[0]);
+                                    mappings.put(c2.name + "." + f.name + f.desc, "" + newName.get());
                                 }
                             });
 
-                    mappings.put(name + "." + f.name + f.desc, "" + newName[0]);
+                    mappings.put(name + "." + f.name + f.desc, "" + newName.get());
 
                     usedDescriptors.add(f.desc);
                 }
@@ -70,7 +71,7 @@ public class RandomNumberMemberNameProvider implements MemberNameProvider {
             // Methods
 
             usedDescriptors.clear();
-            newName[0] = generateRandomInt();
+            newName.set(generateRandomInt());
 
             // TODO: Implement method functionality
         });
