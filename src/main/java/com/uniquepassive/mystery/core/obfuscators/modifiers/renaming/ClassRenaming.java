@@ -25,6 +25,10 @@ public class ClassRenaming {
                         inClasses.put(newClassName, inClasses.remove(c.name));
                         targetClasses.put(newClassName, targetClasses.remove(c.name));
 
+                        if (c.sourceFile != null) {
+                            c.sourceFile = c.sourceFile.replace(c.name, newClassName);
+                        }
+                        c.sourceDebug = null;
                         c.name = newClassName;
                     }
                 });
@@ -33,6 +37,19 @@ public class ClassRenaming {
             String newSuperName = nameProvider.getNameForClass(c.superName);
             if (newSuperName != null) {
                 c.superName = newSuperName;
+            }
+
+            String newOuterClassName = nameProvider.getNameForClass(c.outerClass);
+            if (newOuterClassName != null) {
+                c.outerClass = newOuterClassName;
+            }
+
+            if (c.outerMethodDesc != null) {
+                c.outerMethodDesc = getNewDesc(c.outerMethodDesc);
+            }
+
+            if (c.signature != null) {
+                c.signature = getNewDesc(c.signature);
             }
 
             for (int i = 0; i < c.interfaces.size(); i++) {
