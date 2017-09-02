@@ -62,7 +62,6 @@ public class RandomNumberMemberNameProvider implements MemberNameProvider {
                             });
 
                     mappings.put(name + "." + f.name + f.desc, "" + newName[0]);
-                    f.name = "" + newName[0];
 
                     usedDescriptors.add(f.desc);
                 }

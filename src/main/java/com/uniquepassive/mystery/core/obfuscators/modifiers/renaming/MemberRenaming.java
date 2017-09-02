@@ -17,6 +17,16 @@ public class MemberRenaming {
     public void run(Map<String, ClassNode> inClasses, Map<String, ClassNode> targetClasses) {
         nameProvider.feedData(inClasses, targetClasses);
 
+        targetClasses.forEach((name, c) -> {
+            for (FieldNode f : c.fields) {
+                String newName = nameProvider.getNameForMember(c.name, f.name, f.desc, true);
+
+                if (newName != null) {
+                    f.name = newName;
+                }
+            }
+        });
+
         inClasses.forEach((name, c) -> {
             for (MethodNode m : c.methods) {
                 AbstractInsnNode[] instructions = m.instructions.toArray();
