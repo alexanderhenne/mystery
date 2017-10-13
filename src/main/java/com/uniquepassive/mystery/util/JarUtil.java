@@ -9,8 +9,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collection;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.jar.JarFile;
 import java.util.stream.Collectors;
@@ -24,7 +23,8 @@ public class JarUtil {
 
         JarFile jarFile = new JarFile(targetJar);
 
-        return jarFile.stream()
+        return jarFile
+                .stream()
                 .filter(e -> e.getName().toLowerCase().endsWith(".class"))
                 .map(e -> {
                     try (InputStream classStream = jarFile.getInputStream(e)) {
@@ -42,8 +42,18 @@ public class JarUtil {
     public static void saveToFile(File targetJar, Collection<ClassNode> classes)
             throws IOException {
 
+        List<ClassNode> classList = new ArrayList<>(classes);
+
+        /*
+            Shuffle the class list
+            so that the file order
+            in the output jar isn't
+            the same as the input order.
+         */
+        Collections.shuffle(classList);
+
         try (ZipOutputStream zipFile = new ZipOutputStream(new FileOutputStream(targetJar))) {
-            classes.forEach((c) -> {
+            classList.forEach((c) -> {
                 try {
                     ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS);
                     c.accept(classWriter);
